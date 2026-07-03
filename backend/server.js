@@ -83,6 +83,7 @@ const domains = {
   }
 };
 
+
 app.get("/", (req, res) => {
   res.send("EduGuide Backend Running");
 });

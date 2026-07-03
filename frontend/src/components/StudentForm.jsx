@@ -21,7 +21,6 @@ function StudentForm() {
           goal,
         }
       );
-
       setResult(response.data);
     } catch (error) {
       console.log(error);
@@ -32,7 +31,6 @@ function StudentForm() {
 
   return (
     <div className="app">
-
       {/* Hero Section */}
       <div className="hero">
         <h1>🎓 EduGuide AI</h1>
@@ -79,25 +77,24 @@ function StudentForm() {
             onChange={(e) => setInterests(e.target.value)}
           />
         </div>
-
+        
         <input
           type="text"
           placeholder="Career Goal"
           value={goal}
           onChange={(e) => setGoal(e.target.value)}
         />
-
+       
         <button onClick={handleSubmit}>
           {loading
             ? "Generating Roadmap..."
             : "Generate Roadmap 🚀"}
         </button>
       </div>
-
+      
       {/* Results */}
       {result && (
         <div className="results">
-
           <div className="card">
             <h2>🎯 Recommended Domain</h2>
             <p className="highlight">
