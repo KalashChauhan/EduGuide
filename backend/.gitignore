@@ -3,3 +3,7 @@ node_modules/
 .env.*
 !.env.example
 data/
+package-lock.json
+package.json
+schema.sql
+
