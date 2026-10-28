@@ -2,7 +2,3 @@ node_modules/
 .env
 .env.*
 !.env.example
-Dockerfile
-package-lock.json
-package.json
-schema.sql
