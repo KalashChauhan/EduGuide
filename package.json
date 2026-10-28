@@ -1,5 +1,12 @@
 {
-  "dependencies": {
-    "@google/generative-ai": "^0.24.1"
+  "name": "eduguide",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:backend": "npm --prefix backend run dev",
+    "start:backend": "npm --prefix backend start",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint"
   }
 }
