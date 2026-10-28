@@ -2,47 +2,4 @@
 
 EduGuide is a local-first, agentic learning and career-planning MVP. Students share their current skills, interests, goal, available study time, and preferred language. The planner recommends a direction, creates milestones and success criteria, links to a small curated set of learning resources, and saves the plan so students can update progress and check in. A built-in planner works without any model credentials. Optionally, the backend can ask a locally installed Ollama model to personalize roadmap text; it falls back automatically when Ollama is unavailable.
 
-## Run locally
-
 Requirements: Node.js 18+ and npm. No third-party AI key is required.
-
-1. Install backend dependencies: `cd backend && npm install`
-2. Start the API: `npm run dev` (from `backend`, serves `http://localhost:5000`)
-3. In another terminal, install and start the frontend: `cd frontend && npm install && npm run dev`
-4. Open the Vite URL shown in the terminal (usually `http://localhost:5173`).
-
-Plans are persisted locally in `backend/data/plans.json` unless a MySQL `MYSQL_URL` is configured. That file is created on first save and ignored by Git.
-
-## Optional local model (no API keys)
-
-Install Ollama from [ollama.com](https://ollama.com), then download and run a model, for example `ollama run llama3.2:3b`. The backend defaults to `http://localhost:11434` and model `llama3.2:3b`. Configure `OLLAMA_URL`, `OLLAMA_MODEL`, or set `USE_OLLAMA=false` in `backend/.env` to use only the built-in planner. The model call runs on the machine hosting Ollama; memory and speed depend on that machine and model.
-
-## Optional MySQL
-
-Create a MySQL database, then put its connection URL in `MYSQL_URL` in `backend/.env`, for example `mysql://username:password@host:3306/database`. The app creates the `plans` table on startup; see `backend/schema.sql`. URL-encode special characters in the password. Keep the connection URL in the backend environment only. The browser never connects directly to MySQL. Use separate development and production databases, restrict database access, and configure backups before serving real student data.
-
-## Public demo deployment (Railway)
-
-The repository includes a root `Dockerfile` that builds the Vite app and serves it with the Express API from one web service. Railway can build a repository using its root Dockerfile. Connect this GitHub repository in Railway, add a MySQL database service, then add a reference variable to the web service:
-
-```text
-MYSQL_URL=${{MySQL.MYSQL_URL}}
-USE_OLLAMA=false
-```
-
-Use the exact name of your MySQL service in place of `MySQL` if you named it differently. Generate a public domain for the web service after it deploys. The web container uses Railway's `PORT` variable. `USE_OLLAMA=false` selects the built-in planner because a hosted service cannot reach Ollama running only on your personal computer.
-
-This is a demo deployment configuration, not permission or preparation to store real student records. The app currently has no authentication or per-student plan access control, and its built-in planner is not RAG. Only use synthetic/demo data on a public instance until authentication, ownership checks, and privacy controls are added. Railway services may incur charges; check the current pricing before creating them.
-
-## API overview
-
-- `GET /api/health` — storage and service status
-- `GET /api/plans` and `GET /api/plans/:id` — saved plans
-- `POST /api/plans` — validate a student profile and create a plan
-- `PATCH /api/plans/:id/tasks/:taskId` — update milestone status
-- `POST /api/plans/:id/check-ins` — save a weekly reflection and receive next-step guidance
-- `GET /api/resources` — curated learning resources
-
-## National-scale direction
-
-This repository is a prototype, not a nationally deployed student service. Before a broad launch, add authenticated accounts and role-based access, consent and deletion workflows, strong privacy/security review (especially for minors), multilingual content reviewed by educators, accessible low-bandwidth/mobile design, sourced and regularly maintained resource data, abuse controls, observability, database backups, and a model-serving plan with capacity and cost estimates. The current app intentionally avoids claiming placements or guaranteeing career outcomes.
